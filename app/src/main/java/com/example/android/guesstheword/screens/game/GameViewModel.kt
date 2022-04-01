@@ -1,18 +1,4 @@
-/*
- * Copyright 2018, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package com.example.android.guesstheword.screens.game
 
@@ -23,15 +9,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
-// TODO (03) Copy over the different buzz pattern Long array constants here
-
 private val CORRECT_BUZZ_PATTERN = longArrayOf(100, 100, 100, 100, 100, 100)
 private val PANIC_BUZZ_PATTERN = longArrayOf(0, 200)
 private val GAME_OVER_BUZZ_PATTERN = longArrayOf(0, 2000)
 private val NO_BUZZ_PATTERN = longArrayOf(0)
-/**
- * ViewModel containing all the logic needed to run the game
- */
+
+
 class GameViewModel : ViewModel() {
 
     enum class BuzzType(val pattern: LongArray) {
@@ -41,14 +24,9 @@ class GameViewModel : ViewModel() {
         NO_BUZZ(NO_BUZZ_PATTERN)
     }
 
-    // TODO (04) Make an enum called BuzzType - have a different buzz type for CORRECT, GAME_OVER
-    // COUNTDOWN_PANIC and NO_BUZZ. Also add a number of seconds to the companion object for when
-    // count-down buzzing will start
 
     companion object {
-        // These represent different important times in the game, such as game length.
 
-        // This is when the game is over
         private const val DONE = 0L
 
         private const val COUNTDOWN_PANIC_SECONDS = 10L
@@ -104,11 +82,7 @@ class GameViewModel : ViewModel() {
         _score.value = 0
 
         _buzzevent.value = BuzzType.NO_BUZZ
-        // TODO (06) Set the value of buzz event to the correct BuzzType when the buzzer should
-        // fire. This should happen when the game is over, when the user gets a correct answer,
-        // and on each tick when countdown buzzing starts
 
-        // Creates a timer which triggers the end of the game when it finishes
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
 
             override fun onTick(millisUntilFinished: Long) {
@@ -128,9 +102,6 @@ class GameViewModel : ViewModel() {
         timer.start()
     }
 
-    /**
-     * Resets the list of words and randomizes the order
-     */
     private fun resetList() {
         wordList = mutableListOf(
                 "queen",
@@ -158,9 +129,6 @@ class GameViewModel : ViewModel() {
         wordList.shuffle()
     }
 
-    /**
-     * Moves to the next word in the list
-     */
     private fun nextWord() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
@@ -169,7 +137,6 @@ class GameViewModel : ViewModel() {
         _word.value = wordList.removeAt(0)
     }
 
-    /** Methods for buttons presses **/
 
     fun onSkip() {
         _score.value = (_score.value)?.minus(1)
@@ -182,14 +149,9 @@ class GameViewModel : ViewModel() {
         _buzzevent.value = BuzzType.CORRECT
     }
 
-    /** Methods for completed events **/
-
     fun onGameFinishComplete() {
         _eventGameFinish.value = false
     }
-
-    // TODO (07) Add a function onBuzzComplete for telling the view model when the buzz event has
-    // completed
 
     fun onBuzzComplete() {
         _buzzevent.value = BuzzType.NO_BUZZ

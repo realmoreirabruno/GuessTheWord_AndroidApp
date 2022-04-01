@@ -32,9 +32,6 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.GameFragmentBinding
 
-/**
- * Fragment where the game is played
- */
 class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
@@ -52,15 +49,10 @@ class GameFragment : Fragment() {
                 false
         )
 
-        // Get the viewmodel
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
-        // Set the viewmodel for databinding - this allows the bound layout access to all of the
-        // data in the VieWModel
         binding.gameViewModel = viewModel
 
-        // Specify the current activity as the lifecycle owner of the binding. This is used so that
-        // the binding can observe LiveData updates
         binding.setLifecycleOwner(this)
 
         // Sets up event listening to navigate the player when the game is finished
@@ -80,10 +72,6 @@ class GameFragment : Fragment() {
             }
         })
 
-
-        // TODO (09) Created an observer for the buzz event which calls the buzz method with the
-        // correct pattern. Remember to call onBuzzComplete!
-
         return binding.root
 
     }
@@ -100,5 +88,4 @@ class GameFragment : Fragment() {
             }
         }
     }
-    // TODO (08) Copy over the buzz method here
 }
